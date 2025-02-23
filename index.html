@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Art Showcase</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="./script.js"></script>
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading Art Gallery...</h2>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <video class="video-background" autoplay muted loop playsinline>
+            <!-- Replace these video sources with your actual art-related video -->
+            <source src="./Arts/test/lv_0_20250223095627.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1>Student Art Showcase</h1>
+            <p>Discovering Tomorrow's Artists Today</p>
+        </div>
+        <div class="video-controls">
+            <button class="video-btn" id="muteBtn">🔇 Unmute</button>
+            <button class="video-btn" id="pauseBtn">⏸️ Pause</button>
+        </div>
+        <div class="scroll-down">
+            Scroll Down
+            <br>↓
+        </div>
+    </header>
+
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="#performing">Performing Arts</a></li>
+            <li><a href="#applied">Applied Arts</a></li>
+            <li><a href="#visual">Visual Arts</a></li>
+        </ul>
+    </nav>
+
+    <section id="performing" class="section">
+        <h2 class="section-title">Performing Arts</h2>
+        <div class="gallery">
+            <div class="art-card">
+                <div class="category-badge">Performance</div>
+                <img src="./Arts/test/genshin-impact-raiden-shogun.jpg" alt="Dance Performance" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Contemporary Dance</h3>
+                    <p class="art-description">A mesmerizing contemporary dance performance exploring themes of nature
+                        and humanity through fluid movements and expressive choreography.</p>
+                    <p class="artist-name">Sarah Johnson</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Theater</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Theater Performance" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Dramatic Monologue</h3>
+                    <p class="art-description">A powerful theatrical performance bringing Shakespeare's classic
+                        soliloquies to life with modern interpretation.</p>
+                    <p class="artist-name">James Anderson</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="applied" class="section">
+        <h2 class="section-title">Applied Arts</h2>
+        <div class="gallery">
+            <div class="art-card">
+                <div class="category-badge">Ceramics</div>
+                <img src="./Arts/test/genshin-impact-raiden-shogun.jpg" alt="Ceramic Design" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Modern Ceramics</h3>
+                    <p class="art-description">A collection of hand-crafted ceramic pieces featuring modern geometric
+                        patterns and innovative glazing techniques.</p>
+                    <p class="artist-name">Michael Chen</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Digital Design</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Digital Landscapes</h3>
+                    <p class="art-description">A series of digitally created landscapes merging natural elements with
+                        futuristic concepts.</p>
+                    <p class="artist-name">Lisa Wong</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Digital Design</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Digital Landscapes</h3>
+                    <p class="art-description">A series of digitally created landscapes merging natural elements with
+                        futuristic concepts.</p>
+                    <p class="artist-name">Lisa Wong</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="visual" class="section">
+        <h2 class="section-title">Visual Arts</h2>
+        <div class="gallery">
+            <div class="art-card">
+                <div class="category-badge">Painting</div>
+                <img src="./Arts/test/genshin-impact-raiden-shogun.jpg" alt="Oil Painting" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Abstract Landscape</h3>
+                    <p class="art-description">An oil painting exploring the intersection of natural and urban
+                        landscapes through bold colors and dynamic brushwork.</p>
+                    <p class="artist-name">Emma Roberts</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Photography</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Photography" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Urban Perspectives</h3>
+                    <p class="art-description">A series of photographs capturing the hidden geometry and patterns in
+                        city architecture.</p>
+                    <p class="artist-name">David Kim</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Digital Design</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Digital Landscapes</h3>
+                    <p class="art-description">A series of digitally created landscapes merging natural elements with
+                        futuristic concepts.</p>
+                    <p class="artist-name">Lisa Wong</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Digital Design</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Digital Landscapes</h3>
+                    <p class="art-description">A series of digitally created landscapes merging natural elements with
+                        futuristic concepts.</p>
+                    <p class="artist-name">Lisa Wong</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Digital Design</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Digital Landscapes</h3>
+                    <p class="art-description">A series of digitally created landscapes merging natural elements with
+                        futuristic concepts.</p>
+                    <p class="artist-name">Lisa Wong</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="category-badge">Digital Design</div>
+                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Digital Landscapes</h3>
+                    <p class="art-description">A series of digitally created landscapes merging natural elements with
+                        futuristic concepts.</p>
+                    <p class="artist-name">Lisa Wong</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal">
+        <span class="close-modal">×</span>
+        <img class="modal-content" src="" alt="Enlarged artwork">
+    </div>
+
+    <div class="scroll-to-top">
+        ↑
+    </div>
+
+    <script>
+    </script>
+</body>
+
+</html>
