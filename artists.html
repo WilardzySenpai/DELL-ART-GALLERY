@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artists Gallery - Student Art Showcase</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="./scripts/artistMenu.js"></script>
+    <link rel="stylesheet" href="./styles/styles.css">
+    <style>
+        /* Specific styles for Artists page */
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .artist-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            max-width: 340px;
+            width: 340px;
+        }
+
+        .artist-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .artist-profile {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artist-banner {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .artist-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .artist-card:hover .artist-avatar {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .artist-info {
+            padding: 0 20px 20px;
+            /* Increased top padding to accommodate the image */
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .artist-name {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-weight: 700;
+            text-align: center;
+            display: flex;
+            margin-top: 0;
+        }
+
+
+        .artist-specialty {
+            color: var(--accent-color);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .artist-bio {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .artist-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+
+        .view-detail-btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            margin-top: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .view-detail-btn:hover {
+            background: color-mix(in srgb, var(--accent-color) 80%, white);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-bar {
+            padding: 1.5rem 3rem;
+            margin: 0 auto 3rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 1200px;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            background: white;
+            color: var(--text-color);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .artist-search {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .artist-hero {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            padding: 8rem 2rem 4rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artist-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('./Arts/test/genshin-impact-raiden-shogun.jpg') center/cover;
+            opacity: 0.2;
+            filter: blur(8px);
+        }
+
+        .artist-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .artist-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .artist-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ffd700;
+            color: #333;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-badge::before {
+            content: '💖';
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        [data-theme="dark"] .artist-card {
+            background: #34495e;
+        }
+
+        [data-theme="dark"] .artist-info {
+            background: #34495e;
+        }
+
+        [data-theme="dark"] .artist-bio {
+            color: #bdc3c7;
+        }
+
+        [data-theme="dark"] .artist-stats {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .contact-btn {
+            color: white;
+            border-color: white;
+        }
+
+        [data-theme="dark"] .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .filter-btn {
+            background: #2c3e50;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .filter-btn:hover:not(.active) {
+            background: #34495e;
+        }
+
+        [data-theme="dark"] .search-input {
+            background: #2c3e50;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .artist-grid {
+                padding: 0 1rem;
+                gap: 2rem;
+            }
+
+            .filter-bar {
+                padding: 1rem;
+            }
+
+            .artist-title {
+                font-size: 2rem;
+            }
+
+            .artist-hero {
+                padding: 14rem 1rem 14rem;
+            }
+
+            .artist-card {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div class="nav-backdrop"></div>
+
+    <nav class="side-nav">
+        <ul class="side-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Artists</a></li>
+            <li><a href="index.html#performing">Performing Arts</a></li>
+            <li><a href="index.html#applied">Applied Arts</a></li>
+            <li><a href="index.html#visual">Visual Arts</a></li>
+        </ul>
+    </nav>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading Artists Gallery...</h2>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="artist-hero">
+        <div class="artist-hero-content">
+            <h1 class="artist-title">Our Talented Artists</h1>
+            <p class="artist-subtitle">Discover the creative minds behind our exceptional artwork collection. Each
+                artist brings their unique perspective and skill to create captivating and meaningful pieces.</p>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Artists</a></li>
+            <li><a href="index.html#performing">Performing Arts</a></li>
+            <li><a href="index.html#applied">Applied Arts</a></li>
+            <li><a href="index.html#visual">Visual Arts</a></li>
+        </ul>
+    </nav>
+
+    <section class="section">
+        <div class="artist-search">
+            <span class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </span>
+            <input type="text" class="search-input" placeholder="Search artists by name or specialty..."
+                id="artistSearch">
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All Artists</button>
+            <button class="filter-btn" data-filter="Performing">Performing Arts</button>
+            <button class="filter-btn" data-filter="Visual">Visual Arts</button>
+            <button class="filter-btn" data-filter="Applied">Applied Arts</button>
+            <button class="filter-btn" data-filter="featured">Featured Artists</button>
+        </div>
+
+        <div class="artist-grid">
+            <div class="artist-card" data-category="Visual" data-featured="true">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/_Chill Guy_ by John Aslee A. Dela Cruz.jpeg"
+                        alt="Artist Banner" class="artist-banner">
+                    <img src="./Arts/Visual//Artists/aslee.jpg" alt="John Aslee A. Dela Cruz"
+                        class="artist-avatar">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">John Aslee A. Dela Cruz</h3>
+                    <p class="artist-specialty">F-Tier (Certified NPC, No Rizz Detected)</p>
+                    <p class="artist-bio">
+                        <b>Mewing Level:</b> 4/10 (Not enough jaw activation)<br>
+                        <b>Rizz Level:</b> "Hey" + 💀 = No response. (They gotta start watching Kai Cenat & Duke Dennis ASAP)<br>
+                        <b>Drip Check:</b> Civilians at best, no mogging detected.<br>
+                        <b>Final Verdict:</b> Sigma grindset not found. Must awaken their inner rizz.
+                    </p>
+                    <div class="artist-stats"></div>
+                    <!-- <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-number">78%</div>
+                            <div class="stat-label">Looks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10%</div>
+                            <div class="stat-label">Aura</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">88%</div>
+                            <div class="stat-label">Sigma</div>
+                        </div>
+                    </div> -->
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="Performing">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/The Trepidation of Justice under the Crimson Moon by Julius.jpg" alt="Artist Banner" class="artist-banner">
+                    <img src="./Arts/Visual/Artists/julius.jpeg" alt="Julius Pagaduan" class="artist-avatar">
+                </div>
+                <div class="featured-badge">Featured Artist</div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Julius 🦍🔥</h3>
+                    <p class="artist-specialty">🥇 S-Tier (Godly Rizz, Unspoken Mewing, Absolute Mogger)</p>
+                    <p class="artist-bio">
+                        <b>Mewing Level:</b> 10/10 (Jawline so sharp it could cut Phanum tax in half) <br>
+                        <b>Rizz Level:</b> Rizzler Supreme (This man doesn’t speak, the rizz speaks for him) <br>
+                        <b>Drip Check:</b> Sigma-core (Could be Kai Cenat’s long-lost cousin) <br>
+                        <b>Final Verdict:</b> Peak mogger. Others are trembling.
+                    </p>
+                    <div class="artist-stats">
+                        <!-- <div class="stat">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Performances</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Awards</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2021</div>
+                            <div class="stat-label">Since</div>
+                        </div> -->
+                    </div>
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="Performing" data-featured="true">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/fate under the london rain by Lachan.jpg"
+                        alt="Artist Banner" class="artist-banner">
+                    <img src="./Arts/Visual/Artists/lachan.jpeg"
+                        alt="Fabillar Mae Lachan" class="artist-avatar">
+                </div>
+                <div class="featured-badge">Featured Artist</div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Lachan 😤💎</h3>
+                    <p class="artist-specialty">🥈 A-Tier (Certified Rizzler, Almost Unspoken)</p>
+                    <p class="artist-bio">
+                        <b>Mewing Level:</b> 8/10 (Has been grinding looksmaxxing, I can tell) <br>
+                        <b>Rizz Level:</b> Verbal Rizz King (This man be pulling with words alone) <br>
+                        <b> Drip Check:</b> Baby Gronk protégé vibes <br>
+                        <b>Final Verdict:</b> Still mogging 90% of people, but not quite Julius-level.
+                    </p>
+                    <div class="artist-stats">
+                        <!-- <div class="stat">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Performances</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">Awards</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2019</div>
+                            <div class="stat-label">Since</div>
+                        </div> -->
+                    </div>
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="Applied">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/_Through My Eyes.png" alt="Artist Banner" class="artist-banner">
+                    <img src="./Arts/Visual/Artists/lanz.jpg" alt="Lanz Yuriel" class="artist-avatar">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Lanz 😎🕶️</h3>
+                    <p class="artist-specialty">🥉 B-Tier (Casual Rizz, Still Cooking)</p>
+                    <p class="artist-bio">
+                        <b>Mewing Level:</b> 7/10 (Knows about mewing, but not fully committed yet) <br>
+                        <b>Rizz Level:</b> Silent but deadly. The type to drop a one-liner and make Livee Dunn fold. <br>
+                        <b>Drip Check:</b> Respectable, but needs some extra Grimace Shake energy. <br>
+                        <b>Final Verdict:</b> Lowkey rizz, needs a little more Skibidi power to mog.
+                    </p>
+                    <div class="artist-stats">
+                        <!-- <div class="stat">
+                            <div class="stat-number">20</div>
+                            <div class="stat-label">Works</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Awards</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2020</div>
+                            <div class="stat-label">Since</div>
+                        </div> -->
+                    </div>
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="Applied">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/nobleza.png"
+                        alt="Artist Banner" class="artist-banner">
+                    <img src="./Arts/Visual/Artists/nobleza.jpeg"
+                        alt="Michaela Rose Nobleza" class="artist-avatar">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Nobleza 🧐</h3>
+                    <p class="artist-specialty">C-Tier (Work-in-Progress Rizz)</p>
+                    <p class="artist-bio">
+                        <b>Mewing Level:</b> 6/10 (The grind is visible, but needs more edging discipline) <br>
+                        <b>Rizz Level:</b> Still loading… (Can probably pull, but needs Phanum tax exemption) <br>
+                        <b>Drip Check:</b> Mid, but potential is there <br>
+                        <b>Final Verdict:</b> Could become a mogger with time. Needs to up the rizz reps.
+                    </p>
+                    <div class="artist-stats">
+                        <!-- <div class="stat">
+                            <div class="stat-number">18</div>
+                            <div class="stat-label">Works</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">1</div>
+                            <div class="stat-label">Awards</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2022</div>
+                            <div class="stat-label">Since</div>
+                        </div> -->
+                    </div>
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="Visual" data-featured="true">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/drive-download-20250307T103604Z-001/“Nature’s Fiery Farewell” By_ Reydan A. Pelicano .jpeg"
+                        alt="Artist Banner" class="artist-banner">
+                    <img src="./Arts/Visual/Artists/reydan.jpeg"
+                        alt="Reydan Pelicano" class="artist-avatar">
+                </div>
+                <div class="featured-badge">Featured Artist</div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Reydan 🫤</h3>
+                    <p class="artist-specialty">D-Tier (NPC Mode, Rizz in Shambles)</p>
+                    <p class="artist-bio">
+                        <b>Mewing Level:</b> 5/10 (Bro… are you mewing or chewing?) <br>
+                        <b>Rizz Level:</b> Ohio settings enabled. (We need immediate intervention) <br>
+                        <b>Drip Check:</b> Needs an update patch, current version is buggy <br>
+                        <b>Final Verdict:</b> Bro is getting mogged. Hit the rizz gym ASAP.
+                    </p>
+                    <div class="artist-stats">
+                        <!-- <div class="stat">
+                            <div class="stat-number">30</div>
+                            <div class="stat-label">Works</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Awards</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2018</div>
+                            <div class="stat-label">Since</div>
+                        </div> -->
+                    </div>
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="Applied">
+                <div class="artist-profile">
+                    <img src="./Arts/Visual/drive-download-20250307T103604Z-001/_Mirasol_ by Denise De Juan.jpg"
+                        alt="Artist Banner" class="artist-banner">
+                    <img src="./Img/placeholder.jpg"
+                        alt="Denise De Juan" class="artist-avatar">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Denise ∞</h3>
+                    <p class="artist-specialty">∞-Undefined</p>
+                    <p class="artist-bio">
+                        <b>Error</b>
+                    </p>
+                    <div class="artist-stats">
+                        <!-- <div class="stat">
+                            <div class="stat-number">18</div>
+                            <div class="stat-label">Works</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">1</div>
+                            <div class="stat-label">Awards</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2022</div>
+                            <div class="stat-label">Since</div>
+                        </div> -->
+                    </div>
+                    <a href="#" class="view-detail-btn" data-artist-id="john-dela-cruz">View Profile</a>
+                </div>
+            </div>
+
+            <div class="no-results" style="display: none;">
+                <h3>No artists found matching your search criteria</h3>
+                <p>Try different keywords or categories</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="float-buttons">
+        <button id="theme-toggle" class="theme-toggle">🌓</button>
+        <div class="scroll-to-top">↑</div>
+    </div>
+
+    <!-- Premium Footer -->
+    <footer class="premium-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#performing">Performing Arts</a></li>
+                        <li><a href="#applied">Applied Arts</a></li>
+                        <li><a href="#visual">Visual Arts</a></li>
+                        <li><a href="#">3D View of Arts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="coming-soon">About Us</a></li>
+                        <li><a href="#" class="coming-soon">Submit Artwork</a></li>
+                        <li><a href="#" class="coming-soon">Contact</a></li>
+                        <li><a href="#" class="coming-soon">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="./artists.html" class="">Artist Profiles</a></li>
+                        <li><a href="#" class="coming-soon">Workshops</a></li>
+                        <li><a href="#" class="coming-soon">Scholarships</a></li>
+                        <li><a href="#" class="coming-soon">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column newsletter">
+                    <h4 class="footer-title">Stay Inspired</h4>
+                    <p>Subscribe to our newsletter for the latest in student art</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="social-icons">
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="copyright">
+                    © 2025 Student Art Showcase. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loading Screen
+            const loadingScreen = document.querySelector('.loading-screen');
+
+            // Simulate loading time (remove this setTimeout in production and use actual load event)
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            // Register GSAP plugins
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Console log for debugging
+            console.log('GSAP and ScrollTrigger initialized');
+
+            // Animate artist cards on scroll
+            const artistCards = document.querySelectorAll('.artist-card');
+            artistCards.forEach((card, index) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.6,
+                    delay: index * 0.1,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top bottom-=100",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+
+            // Filtering functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('artistSearch');
+            const noResults = document.querySelector('.no-results');
+
+            // Function to filter cards
+            function filterCards() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+                let visibleCount = 0;
+
+                artistCards.forEach(card => {
+                    const category = card.dataset.category;
+                    const featured = card.dataset.featured;
+                    const name = card.querySelector('.artist-name').textContent.toLowerCase();
+                    const specialty = card.querySelector('.artist-specialty').textContent.toLowerCase();
+
+                    // Check if card matches both search and filter criteria
+                    const matchesSearch = name.includes(searchTerm) || specialty.includes(searchTerm);
+                    const matchesFilter =
+                        activeFilter === 'all' ||
+                        (activeFilter === 'featured' && featured === 'true') ||
+                        category === activeFilter;
+
+                    if (matchesSearch && matchesFilter) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+
+                        // Ensure GSAP animations run for newly visible cards
+                        gsap.to(card, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.4
+                        });
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Show or hide "no results" message
+                if (visibleCount === 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+            }
+
+            // Add event listeners for filter buttons
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active class
+                    filterButtons.forEach(button => button.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Apply filters
+                    filterCards();
+                });
+            });
+
+            // Add event listener for search input
+            searchInput.addEventListener('input', filterCards);
+
+            // Initial filter
+            filterCards();
+
+            // Artist card hover animations
+            artistCards.forEach(card => {
+                const image = card.querySelector('.artist-image');
+                const info = card.querySelector('.artist-info');
+
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        y: -10,
+                        scale: 1.02,
+                        boxShadow: '0 15px 30px rgba(0, 0, 0, 0.2)',
+                        duration: 0.3
+                    });
+
+                    gsap.to(image, {
+                        scale: 1.1,
+                        duration: 0.5
+                    });
+
+                    gsap.to(info, {
+                        y: -5,
+                        duration: 0.3
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        y: 0,
+                        scale: 1,
+                        boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)',
+                        duration: 0.3
+                    });
+
+                    gsap.to(image, {
+                        scale: 1,
+                        duration: 0.5
+                    });
+
+                    gsap.to(info, {
+                        y: 0,
+                        duration: 0.3
+                    });
+                });
+            });
+
+            // Animate the hero section elements
+            gsap.from('.artist-hero h1', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.5
+            });
+
+            gsap.from('.artist-hero p', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.7
+            });
+
+            gsap.from('.filter-container', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                delay: 0.9
+            });
+
+            gsap.from('.search-container', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                delay: 1.1
+            });
+
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            // Check for saved theme
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                body.setAttribute('data-theme', currentTheme);
+                updateButtonIcon(currentTheme);
+            }
+
+            function toggleTheme() {
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                updateButtonIcon(isDark ? 'light' : 'dark');
+            }
+
+            function updateButtonIcon(theme) {
+                themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Initialize button icon
+            updateButtonIcon(currentTheme || 'light');
+
+            // Scroll to Top functionality
+            const scrollToTop = document.querySelector('.scroll-to-top');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    scrollToTop.classList.add('visible');
+                    // Push up theme toggle when scroll button appears
+                    themeToggle.style.transform = 'translateY(-10px)';
+                } else {
+                    scrollToTop.classList.remove('visible');
+                    // Reset theme toggle position
+                    themeToggle.style.transform = 'translateY(0)';
+                }
+            });
+
+            scrollToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Artist detail view (if present)
+            const viewDetailBtns = document.querySelectorAll('.view-detail-btn');
+
+            viewDetailBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const artistId = btn.getAttribute('data-artist-id');
+                    // You can either redirect to a detail page or show a modal
+                    // Example for modal:
+                    showArtistModal(artistId);
+                });
+            });
+
+            function showArtistModal(artistId) {
+                // This is a placeholder for showing artist details
+                // You could implement a modal that loads artist info dynamically
+                console.log(`Showing details for artist ID: ${artistId}`);
+                // Here you would typically fetch artist data and populate a modal
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -4,14 +4,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Art Showcase</title>
+    <title>Student Art Showcase | Home</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <script src="./script.js"></script>
+    <link rel="stylesheet" href="./styles/styles.css">
+    <script src="./scripts/script.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --background-light: #f9f9f9;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--background-light);
+            overflow-x: hidden;
+        }
+
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 3rem;
+            padding: 0 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .art-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            height: auto;
+        }
+
+        .art-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .art-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .art-card:hover .art-image {
+            transform: scale(1.05);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .art-info {
+            padding: 2rem;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), white);
+        }
+
+        .art-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .art-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .artist-name {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-style: italic;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .artist-name::before {
+            content: '✦';
+            color: var(--accent-color);
+        }
+    </style>
 </head>
 
 <body>
+
+    <button class="mobile-nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div class="nav-backdrop"></div>
+
+    <nav class="side-nav">
+        <ul class="side-nav-links">
+            <li><a href="#performing">Performing Arts</a></li>
+            <li><a href="#applied">Applied Arts</a></li>
+            <li><a href="#visual">Visual Arts</a></li>
+            <li><a href="./artists.html">Artist Profiles</a></li>
+        </ul>
+    </nav>
 
     <!-- Loading Screen -->
     <div class="loading-screen">
@@ -30,7 +171,7 @@
         </video>
         <div class="header-overlay"></div>
         <div class="header-content">
-            <h1>Student Art Showcase</h1>
+            <h1>DELL Art Showcase</h1>
             <p>Discovering Tomorrow's Artists Today</p>
         </div>
         <div class="video-controls">
@@ -48,6 +189,7 @@
             <li><a href="#performing">Performing Arts</a></li>
             <li><a href="#applied">Applied Arts</a></li>
             <li><a href="#visual">Visual Arts</a></li>
+            <li><a href="./artists.html">Artist Profiles</a></li>
         </ul>
     </nav>
 
@@ -120,68 +262,89 @@
         <h2 class="section-title">Visual Arts</h2>
         <div class="gallery">
             <div class="art-card">
-                <div class="category-badge">Painting</div>
-                <img src="./Arts/test/genshin-impact-raiden-shogun.jpg" alt="Oil Painting" class="art-image">
+                <img src="./Arts/Visual/_Chill Guy_ by John Aslee A. Dela Cruz.jpeg" alt="Chill Guy" class="art-image">
+                <div class="category-badge">Drawing/Color</div>
                 <div class="art-info">
-                    <h3 class="art-title">Abstract Landscape</h3>
-                    <p class="art-description">An oil painting exploring the intersection of natural and urban
-                        landscapes through bold colors and dynamic brushwork.</p>
-                    <p class="artist-name">Emma Roberts</p>
+                    <h3 class="art-title">Chill Guy</h3>
+                    <p class="art-description">This artwork is about a meme character named "Chill Guy." I created this
+                        drawing because it represents calmness and composure, qualities that resonate with me. Through
+                        this piece, I aim to express a sense of relaxation and inner peace, reflecting my own
+                        personality and mindset.</p>
+                    <p class="artist-name">John Aslee A. Dela Cruz</p>
                 </div>
             </div>
             <div class="art-card">
-                <div class="category-badge">Photography</div>
-                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                <img src="./Arts/Visual/_Through My Eyes.png"
                     alt="Photography" class="art-image">
+                <div class="category-badge">Sketch/Drawing</div>
                 <div class="art-info">
-                    <h3 class="art-title">Urban Perspectives</h3>
-                    <p class="art-description">A series of photographs capturing the hidden geometry and patterns in
-                        city architecture.</p>
-                    <p class="artist-name">David Kim</p>
+                    <h3 class="art-title">Through My Eyes</h3>
+                    <p class="art-description">Every stroke, every shade, every detail—this drawing is more than just art, it's how I see you. I wanted to capture the way you shine, the way your eyes speak without words. Maybe it's just pencil on paper, but to me, it's a glimpse of how special you are</p>
+                    <p class="artist-name">Lanz Yuriel (Coco)</p>
                 </div>
             </div>
             <div class="art-card">
-                <div class="category-badge">Digital Design</div>
-                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                <img src="./Arts/Visual/fate under the london rain by Lachan.jpg"
                     alt="Digital Art" class="art-image">
+                <div class="category-badge">Sketch/Drawing</div>
                 <div class="art-info">
-                    <h3 class="art-title">Digital Landscapes</h3>
-                    <p class="art-description">A series of digitally created landscapes merging natural elements with
-                        futuristic concepts.</p>
-                    <p class="artist-name">Lisa Wong</p>
+                    <h3 class="art-title">Fate Under The London Rain</h3>
+                    <p class="art-description">Fate Under the London Rain is about love that keeps crossing paths but is never meant to stay. It inspired by Our Asymptotic Love Story novel by UndeniablyGorgeous, where four generations of lovers were never allowed to be together, this piece captures that same bittersweet feeling. The couple walks under the rain, sharing an umbrella, but fate has already decided—they can’t stay. The Elizabeth Tower watches over them, time moving forward as they hold onto a moment that will eventually slip away.</p>
+                    <p class="artist-name">Lachan Mae Fabillar</p>
                 </div>
             </div>
             <div class="art-card">
-                <div class="category-badge">Digital Design</div>
-                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                <img src="./Arts/Visual/nobleza.png"
                     alt="Digital Art" class="art-image">
+                <div class="category-badge">Painting</div>
                 <div class="art-info">
-                    <h3 class="art-title">Digital Landscapes</h3>
-                    <p class="art-description">A series of digitally created landscapes merging natural elements with
-                        futuristic concepts.</p>
-                    <p class="artist-name">Lisa Wong</p>
+                    <h3 class="art-title">Fading Light in a Jar</h3>
+                    <p class="art-description">“Fading Light in a Jar" represents the struggle of trying to hold onto something beautiful and fleeting. The jar symbolizes confinement, while the glowing lights reflect dreams, hope, or freedom slowly slipping away. The painting evokes a sense of longing, loss, and the bittersweet nature of capturing something that was meant to roam free.</p>
+                    <p class="artist-name">Nobleza Michaela Rose</p>
                 </div>
             </div>
             <div class="art-card">
-                <div class="category-badge">Digital Design</div>
-                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                <img src="./Arts/Visual/drive-download-20250307T103604Z-001/_Mirasol_ by Denise De Juan.jpg"
                     alt="Digital Art" class="art-image">
+                <div class="category-badge">Photography</div>
                 <div class="art-info">
-                    <h3 class="art-title">Digital Landscapes</h3>
-                    <p class="art-description">A series of digitally created landscapes merging natural elements with
-                        futuristic concepts.</p>
-                    <p class="artist-name">Lisa Wong</p>
+                    <h3 class="art-title">Mirasol</h3>
+                    <p class="art-description">
+                        Captured with my own phone, this photo is titled Mirasol. It showcases the heart of a sunflower, a testament to the beauty hidden within the ordinary. The essence of this image lies in the idea that everything we encounter holds more than what meets the eye. A mere glance offers a simple view, but when you take a moment to look closer, to truly see beyond the surface, an intricate and mesmerizing world unfolds—one that would otherwise remain unnoticed. <br><br> I dedicate this piece to my partner, who sees every flaw in me yet chooses to weigh my positive side more. He looks beyond the surface, seeing me not just as I appear, but as I truly am—through the depth of my soul.</p>
+                    <p class="artist-name">Denise Clemente De Juan</p>
                 </div>
             </div>
             <div class="art-card">
-                <div class="category-badge">Digital Design</div>
-                <img src="./Arts/test/Genshin-Impact-The-Best-Builds-For-Raiden-Shogun-featured-image.jpg"
+                <img src="./Arts/Visual/drive-download-20250307T103604Z-001/_An Unforgettable Bond Under The Starry Night_ by Gregorio, Jomar Joseph L..jpg"
                     alt="Digital Art" class="art-image">
+                <div class="category-badge">Digital Art</div>
                 <div class="art-info">
-                    <h3 class="art-title">Digital Landscapes</h3>
-                    <p class="art-description">A series of digitally created landscapes merging natural elements with
-                        futuristic concepts.</p>
-                    <p class="artist-name">Lisa Wong</p>
+                    <h3 class="art-title">An Unforgettable Bond Under The Starry Night</h3>
+                    <p class="art-description">
+                        Since Pochita was Denji's only family, they shared a strong bond, and this moment together was the last time they were truly at peace—creating an unforgettable bond. <br><br> I created this artwork because it reminds me of the bond I shared with my dog, who sadly passed away on April 9 last year.
+                        </p>
+                    <p class="artist-name">Jomar Joseph Gregorio</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <img src="./Arts/Visual/The Trepidation of Justice under the Crimson Moon by Julius.jpg"
+                    alt="Digital Art" class="art-image">
+                <div class="category-badge">Drwaing/Color/Sketch</div>
+                <div class="art-info">
+                    <h3 class="art-title">The Trepidation of Justice under the Crimson Moon</h3>
+                    <p class="art-description">Furina, the God of Justice, lives in constant fear of exposure, as she only pretends to be an Archon. Arlecchino, the Crimson Moon, knows her secret and once ambushed her, leaving Furina traumatized. Every encounter with Arlecchino revives that fear, making it harder for her to maintain her facade. Inspired by The Scream by Edvard Munch, I reimagined it using a game character—two of my favorites combined!</p>
+                    <p class="artist-name">Julius Pagaduan</p>
+                </div>
+            </div>
+            <div class="art-card">
+                <img src="./Arts/Visual/drive-download-20250307T103604Z-001/“Nature’s Fiery Farewell” By_ Reydan A. Pelicano .jpeg"
+                    alt="Digital Art" class="art-image">
+                <div class="category-badge">Photography</div>
+                <div class="art-info">
+                    <h3 class="art-title">Nature’s Fiery Farewell</h3>
+                    <p class="art-description">
+                        This photograph, captured on my own phone, beautifully represents the harmony between nature and urban life. The fiery hues of the sunset symbolize transformation, endings, and new beginnings, reminding us that each day concludes with beauty, no matter how chaotic life may seem. The dark silhouettes of trees and buildings contrast with the vibrant sky, illustrating the coexistence of nature and human progress. This image serves as a gentle reminder to pause, appreciate, and reflect on the wonders of the natural world—moments of beauty that often go unnoticed in our busy lives.</p>
+                    <p class="artist-name">Reydan A. Pelicano</p>
                 </div>
             </div>
         </div>
@@ -192,12 +355,89 @@
         <img class="modal-content" src="" alt="Enlarged artwork">
     </div>
 
-    <div class="scroll-to-top">
-        ↑
+    <div class="float-buttons">
+        <button id="theme-toggle" class="theme-toggle">🌓</button>
+        <div class="scroll-to-top">↑</div>
     </div>
 
-    <script>
-    </script>
+    <!-- Footer -->
+    <footer class="premium-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#performing">Performing Arts</a></li>
+                        <li><a href="#applied">Applied Arts</a></li>
+                        <li><a href="#visual">Visual Arts</a></li>
+                        <li><a href="#">3D View of Arts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="coming-soon">About Us</a></li>
+                        <li><a href="#" class="coming-soon">Submit Artwork</a></li>
+                        <li><a href="#" class="coming-soon">Contact</a></li>
+                        <li><a href="#" class="coming-soon">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="./artists.html" class="">Artist Profiles</a></li>
+                        <li><a href="#" class="coming-soon">Workshops</a></li>
+                        <li><a href="#" class="coming-soon">Scholarships</a></li>
+                        <li><a href="#" class="coming-soon">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column newsletter">
+                    <h4 class="footer-title">Stay Inspired</h4>
+                    <p>Subscribe to our newsletter for the latest in student art</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="social-icons">
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="copyright">
+                    © 2025 Student Art Showcase. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
